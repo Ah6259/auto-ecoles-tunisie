@@ -64,7 +64,8 @@ def releve():
          'rel(area.tn)["boundary"="administrative"]["admin_level"="4"]->.rs;'
          '.rs map_to_area->.gs;'
          'foreach.gs->.g(.g out tags;(' + union + ');out center tags;);')
-    d = requete(q)
+    # les 24 gouvernorats doivent être présents dans la réponse, sinon on essaie un autre serveur
+    d = requete(q, verifier=lambda d: sum(1 for e in d.get("elements", []) if e["type"] == "area") >= 24)
     fiches, courant = {}, None
     for e in d["elements"]:
         if e["type"] == "area":
