@@ -1,0 +1,30 @@
+{
+  "id": "auto-ecoles-tunisie",
+  "url": "https://ah6259.github.io/auto-ecoles-tunisie/",
+  "nom": { "fr": "Auto-écoles Tunisie", "ar": "مدارس السياقة في تونس" },
+  "court": { "fr": "Auto-écoles TN", "ar": "مدارس السياقة" },
+  "sous_titre": { "fr": "Annuaire gratuit · français et arabe", "ar": "دليل مجاني · بالعربية والفرنسية" },
+  "titre_accueil": { "fr": "Trouver une auto-école en Tunisie, par gouvernorat", "ar": "ابحث عن مدرسة سياقة في تونس حسب الولاية" },
+  "intro": {
+    "fr": "Annuaire gratuit des auto-écoles en Tunisie : adresse, téléphone, WhatsApp et itinéraire, gouvernorat par gouvernorat. Sans inscription.",
+    "ar": "دليل مجاني لمدارس تعليم السياقة في تونس: العنوان والهاتف وواتساب والطريق، ولاية بولاية. دون تسجيل."
+  },
+  "description": "Annuaire gratuit des auto-écoles en Tunisie par gouvernorat : adresse, téléphone, WhatsApp, itinéraire. En français et en arabe.",
+  "couleur": "#1F5FA8",
+  "couleur_fonce": "#163F78",
+  "couleur_claire": "#E6EEF8",
+  "schema": "DrivingSchool",
+  "metiers": [
+    {
+      "id": "auto-ecole", "osm": ["amenity=driving_school"],
+      "fr": "Auto-école", "fr_pl": "Auto-écoles", "ar": "مدرسة سياقة", "ar_pl": "مدارس السياقة",
+      "mots": "auto-école auto ecole école de conduite permis moniteur conduite مدرسة سياقة تعليم السياقة رخصة"
+    }
+  ],
+  "liens": [
+    { "fr": "Réviser le code de la route gratuitement", "ar": "راجع قانون الطرقات مجانًا", "url": "https://ah6259.github.io/code-route-tunisie/" }
+  ],
+  "inscriptions_ouvertes": false,
+  "goatcounter": "https://prix-eaux-tunisie.goatcounter.com",
+  "formspree": "https://formspree.io/f/mwlpakqj"
+}
