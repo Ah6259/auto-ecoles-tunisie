@@ -55,6 +55,10 @@ const ICO = {
   ok: '<path d="M5 12l5 5 9-10"/>',
 };
 const svg = n => `<svg viewBox="0 0 24 24" aria-hidden="true">${ICO[n]}</svg>`;
+const imgMetier = (m, racine, taille = 40) => `<img class="ill-metier" src="${racine}assets/metiers/${m.id}.svg" alt="" width="${taille}" height="${taille}">`;
+// photo du bandeau (Wikimedia, licence libre) et son crédit : obligatoires (checklist visuelle)
+const P = C.photo;
+const creditPhoto = () => P ? `<p class="credit">${bi("Photo", "صورة")} : <bdi>${esc(P.auteur)}</bdi>, <a href="${esc(P.licence_url)}" rel="noopener license">${esc(P.licence)}</a>, <a href="${esc(P.source)}" rel="noopener">Wikimedia Commons</a></p>` : "";
 
 function tete({ titre, desc, chemin, racine, jsonld = [] }) {
   return `<!doctype html>
@@ -103,6 +107,7 @@ function carte(f, racine) {
   const g = G[f.gouvernorat], m = M[f.metier];
   const cherche = [f.nom, f.nom_ar, f.ville, f.adresse, g[1], g[2], m.fr, m.ar, m.mots].filter(Boolean).join(" ");
   return `<a class="fiche-carte${f.pro ? " pro" : ""}" href="${racine}fiche/${f.id}/" data-cherche="${esc(cherche)}" data-g="${f.gouvernorat}" data-m="${f.metier}">
+  ${imgMetier(m, racine, 34)}
   <span class="fc-nom">${esc(f.nom)}${f.nom_ar ? ` <span class="fc-ar" lang="ar">${esc(f.nom_ar)}</span>` : ""}</span>
   <span class="fc-lieu">${svg("carte")}${[f.ville, null].filter(Boolean).map(esc).join("")}${f.ville ? " · " : ""}${bi(esc(g[1]), esc(g[2]))}</span>
   ${C.metiers.length > 1 ? `<span class="fc-metier">${biO({ fr: m.fr, ar: m.ar })}</span>` : ""}
@@ -114,7 +119,7 @@ function filtres(racine, gouvernoratFixe) {
   return `<div class="filtres" id="filtres">
   <label class="recherche">${svg("loupe")}<input type="search" id="recherche" autocomplete="off" aria-label="Rechercher"></label>
   ${gouvernoratFixe ? "" : `<select id="choix-g" aria-label="Gouvernorat"><option value="">${esc("Tous les gouvernorats")}</option>${GOUVERNORATS.map(g => `<option value="${g[0]}" data-ar="${esc(g[2])}">${esc(g[1])}</option>`).join("")}</select>`}
-  ${C.metiers.length > 1 ? `<div class="puces">${C.metiers.map(m => `<button type="button" class="puce" data-m="${m.id}">${biO({ fr: m.fr_pl, ar: m.ar_pl })}</button>`).join("")}</div>` : ""}
+  ${C.metiers.length > 1 ? `<div class="puces">${C.metiers.map(m => `<button type="button" class="puce" data-m="${m.id}">${imgMetier(m, racine, 22)}${biO({ fr: m.fr_pl, ar: m.ar_pl })}</button>`).join("")}</div>` : ""}
 </div>
 <p class="compte" id="compte" aria-live="polite"></p>`;
 }
@@ -151,12 +156,16 @@ const metierPl = C.metiers.length === 1 ? C.metiers[0] : { fr_pl: "professionnel
 {
   const ld = [{ "@context": "https://schema.org", "@type": "WebSite", name: C.nom.fr, url: URL_SITE, inLanguage: ["fr", "ar"] }];
   pages[""] = tete({ titre: `${C.titre_accueil.fr} | ${C.nom.fr}`, desc: C.description, chemin: "", racine: "", jsonld: ld }) + `
-<section class="hero"><div class="wrap">
+<section class="hero hero-accueil"><div class="wrap">
+  <div class="hero-texte">
   <h1>${biO(C.titre_accueil)}</h1>
   <p class="intro">${biO(C.intro)}</p>
   <p class="chiffre">${bi(`${FICHES.length} ${esc(metierPl.fr_pl.toLowerCase())} dans ${Object.values(compteG).filter(Boolean).length} gouvernorats`, `${ISO(FICHES.length)} ${esc(metierPl.ar_pl)} في ${ISO(Object.values(compteG).filter(Boolean).length)} ولاية`)}</p>
+  </div>
+  ${P ? `<figure class="hero-photo"><img src="${esc(P.fichier)}" alt="${esc(P.alt.fr)}" width="${P.largeur}" height="${P.hauteur}">${creditPhoto()}</figure>` : ""}
 </div></section>
 <main class="wrap">
+  ${C.metiers.length > 1 ? `<div class="metiers">${C.metiers.map(m => `<a class="metier" href="#liste" data-m="${m.id}">${imgMetier(m, "", 44)}<span>${biO({ fr: m.fr_pl, ar: m.ar_pl })}</span><span class="n">${FICHES.filter(f => f.metier === m.id).length}</span></a>`).join("")}</div>` : ""}
   ${filtres("", false)}
   <div class="liste" id="liste">${FICHES.map(f => carte(f, "")).join("\n")}</div>
   <p class="vide" id="aucun" hidden>${bi("Aucun résultat. Essayez un autre mot ou un autre gouvernorat.", "لا توجد نتيجة. جرّب كلمة أو ولاية أخرى.")}</p>
@@ -199,7 +208,7 @@ for (const f of FICHES) {
   pages[`fiche/${f.id}/`] = tete({ titre, desc: `${f.nom}, ${m.fr.toLowerCase()} à ${f.ville || g[1]} (gouvernorat de ${g[1]}) : ${f.tel ? "téléphone, " : ""}adresse et itinéraire. Annuaire gratuit.`, chemin: `fiche/${f.id}/`, racine: "../../", jsonld: [ld] }) + `
 <section class="hero"><div class="wrap">
   ${fil("../../", `<a href="../../gouvernorat/${g[0]}/">${bi(esc(g[1]), esc(g[2]))}</a>`)}
-  <h1>${esc(f.nom)}</h1>
+  <h1 class="titre-fiche">${imgMetier(m, "../../", 48)}<span>${esc(f.nom)}</span></h1>
   ${f.nom_ar ? `<p class="nom-ar" lang="ar" dir="rtl">${esc(f.nom_ar)}</p>` : ""}
   <p class="intro">${biO({ fr: m.fr, ar: m.ar })} · ${f.ville ? esc(f.ville) + " · " : ""}${bi(esc(g[1]), esc(g[2]))}</p>
 </div></section>

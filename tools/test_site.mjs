@@ -61,6 +61,16 @@ check("« gratuit » dans le titre ou la description de l'accueil et des gouvern
 check("à propos : sources OpenStreetMap / ODbL, retrait, statistiques sans cookies", /ODbL/.test(lire("a-propos/index.html")) && /retrait/i.test(lire("a-propos/index.html")) && /GoatCounter/.test(lire("a-propos/index.html")));
 check("inscriptions : formulaire de demande (ajout / correction / retrait), envoi Formspree, mention des données", /value="retirer"/.test(lire("inscription/index.html")) && lire("inscription/index.html").includes(C.formspree) && /ne sont pas publiées/.test(lire("inscription/index.html")));
 
+// -- checklist visuelle obligatoire (règle d'Ahmed du 05/10/2026 : aucun site « basique »)
+const P = C.photo || {};
+check("photo du bandeau : fichier présent (≤ 200 Ko), crédit complet (auteur, licence, lien Wikimedia) sur l'accueil",
+  !!P.fichier && existsSync(join(root, P.fichier)) && statSync(join(root, P.fichier)).size <= 200 * 1024 && P.auteur && P.licence && P.licence_url && /commons\.wikimedia\.org/.test(P.source || "") &&
+  lire("index.html").includes(P.fichier) && lire("index.html").includes(P.licence) && /Wikimedia Commons/.test(lire("index.html")));
+check("image en couleur pour chaque métier (assets/metiers/<id>.svg), affichée sur les fiches",
+  C.metiers.every(m => existsSync(join(root, "assets/metiers", m.id + ".svg")) && /<svg[\s\S]*viewBox/.test(lire("assets/metiers/" + m.id + ".svg"))) && s0.includes("assets/metiers/" + f0.metier + ".svg"));
+check("image d'aperçu WhatsApp : fichier JPEG < 250 Ko déclaré dans les pages",
+  !!C.og_image && existsSync(join(root, "assets", C.og_image)) && statSync(join(root, "assets", C.og_image)).size < 250 * 1024 && lire("index.html").includes("assets/" + C.og_image));
+
 // -- fichiers du site
 const man = JSON.parse(lire("manifest.webmanifest"));
 check("manifeste : id unique du site, icônes présentes", man.id === BASE && man.icons.every(i => existsSync(join(root, i.src))) && existsSync(join(root, "assets/icons/apple-touch-icon.png")) && existsSync(join(root, "assets/logo.svg")));

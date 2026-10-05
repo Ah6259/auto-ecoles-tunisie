@@ -1,10 +1,22 @@
 {
   "id": "auto-ecoles-tunisie",
   "url": "https://ah6259.github.io/auto-ecoles-tunisie/",
-  "nom": { "fr": "Auto-écoles Tunisie", "ar": "مدارس السياقة في تونس" },
-  "court": { "fr": "Auto-écoles TN", "ar": "مدارس السياقة" },
-  "sous_titre": { "fr": "Annuaire gratuit · français et arabe", "ar": "دليل مجاني · بالعربية والفرنسية" },
-  "titre_accueil": { "fr": "Trouver une auto-école en Tunisie, par gouvernorat", "ar": "ابحث عن مدرسة سياقة في تونس حسب الولاية" },
+  "nom": {
+    "fr": "Auto-écoles Tunisie",
+    "ar": "مدارس السياقة في تونس"
+  },
+  "court": {
+    "fr": "Auto-écoles TN",
+    "ar": "مدارس السياقة"
+  },
+  "sous_titre": {
+    "fr": "Annuaire gratuit · français et arabe",
+    "ar": "دليل مجاني · بالعربية والفرنسية"
+  },
+  "titre_accueil": {
+    "fr": "Trouver une auto-école en Tunisie, par gouvernorat",
+    "ar": "ابحث عن مدرسة سياقة في تونس حسب الولاية"
+  },
   "intro": {
     "fr": "Annuaire gratuit des auto-écoles en Tunisie : adresse, téléphone, WhatsApp et itinéraire, gouvernorat par gouvernorat. Sans inscription.",
     "ar": "دليل مجاني لمدارس تعليم السياقة في تونس: العنوان والهاتف وواتساب والطريق، ولاية بولاية. دون تسجيل."
@@ -16,15 +28,40 @@
   "schema": "DrivingSchool",
   "metiers": [
     {
-      "id": "auto-ecole", "osm": ["amenity=driving_school"],
-      "fr": "Auto-école", "fr_pl": "Auto-écoles", "ar": "مدرسة سياقة", "ar_pl": "مدارس السياقة",
+      "id": "auto-ecole",
+      "osm": [
+        "amenity=driving_school"
+      ],
+      "fr": "Auto-école",
+      "fr_pl": "Auto-écoles",
+      "ar": "مدرسة سياقة",
+      "ar_pl": "مدارس السياقة",
       "mots": "auto-école auto ecole école de conduite permis moniteur conduite مدرسة سياقة تعليم السياقة رخصة"
     }
   ],
   "liens": [
-    { "fr": "Réviser le code de la route gratuitement", "ar": "راجع قانون الطرقات مجانًا", "url": "https://ah6259.github.io/code-route-tunisie/" }
+    {
+      "fr": "Réviser le code de la route gratuitement",
+      "ar": "راجع قانون الطرقات مجانًا",
+      "url": "https://ah6259.github.io/code-route-tunisie/"
+    }
   ],
   "inscriptions_ouvertes": false,
   "goatcounter": "https://prix-eaux-tunisie.goatcounter.com",
-  "formspree": "https://formspree.io/f/mwlpakqj"
+  "formspree": "https://formspree.io/f/mwlpakqj",
+  "photo": {
+    "fichier": "assets/photo-accueil.webp",
+    "largeur": 900,
+    "hauteur": 675,
+    "alt": {
+      "fr": "Vue de l'avenue Habib-Bourguiba à Tunis et de sa circulation",
+      "ar": "منظر شارع الحبيب بورقيبة بتونس وحركة المرور فيه"
+    },
+    "auteur": "Dacoslett",
+    "licence": "CC0",
+    "licence_url": "http://creativecommons.org/publicdomain/zero/1.0/deed.en",
+    "source": "https://commons.wikimedia.org/wiki/File:TunisAveHabibBourguiba.jpg",
+    "preuve": "annuaires/preuves/2026-10-05/auto-ecoles-tunisie__TunisAveHabibBourguiba.jpg_page.html"
+  },
+  "og_image": "og-image-v1.jpg"
 }

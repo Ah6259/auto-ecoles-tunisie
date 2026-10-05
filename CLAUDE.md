@@ -12,6 +12,13 @@ Répondre à Ahmed **en français**, simplement. Règles communes : `../../regle
 - Pages fabriquées par `node tools/construire.mjs` (ne pas les modifier à la main) : accueil (recherche + filtres),
   24 gouvernorats, une page par fiche (JSON-LD), Professionnels (ajout / correction / retrait par Formspree), À propos.
 
+## Checklist visuelle (obligatoire, bloquée par le test)
+- **Photo du bandeau** : `python annuaires/photo_commons.py <id> "File:…" "alt FR" "alt AR"` (Wikimedia, licence libre, preuve
+  sauvegardée dans `annuaires/preuves/`, crédit affiché ; pas de visage reconnaissable, pas d'emblème de l'État).
+- **Image en couleur par métier** : `assets/metiers/<id-métier>.svg` (48 × 48, fond pastel, aplats, accent doré).
+- **Image d'aperçu** : `python annuaires/apercu.py <id>` → `assets/og-image-vN.jpg` (nouveau nom à chaque fois).
+- Icône : `python annuaires/icones_annuaires.py <id>` (+ `icone.json`).
+
 ## Données et loi
 - Sources permises : **OpenStreetMap** (licence ODbL, crédit sur chaque page), demandes des professionnels. **Jamais** de copie
   d'un annuaire concurrent, du RNE ou de Google Maps.
