@@ -29,7 +29,7 @@ const fichesPages = pages.filter(p => p.startsWith("fiche/"));
 
 // -- structure
 check("accueil, à propos, professionnels et 24 pages de gouvernorat", ["index.html", "a-propos/index.html", "inscription/index.html"].every(p => pages.includes(p)) && pages.filter(p => p.startsWith("gouvernorat/")).length === 24);
-check(`une page par fiche (${attendues.length}), aucune fiche retirée publiée`, fichesPages.length === attendues.length && retraits.every(id => !existsSync(join(root, "fiche", id))));
+check(`une page par fiche (au plus ${attendues.length} : doublons fusionnés), aucune fiche retirée publiée`, fichesPages.length <= attendues.length && fichesPages.length >= attendues.length * 0.8 && retraits.every(id => !existsSync(join(root, "fiche", id))));
 check("au moins une fiche (le relevé OpenStreetMap a fonctionné)", attendues.length > 0);
 
 // -- chaque page
@@ -71,9 +71,28 @@ check("image en couleur pour chaque métier (assets/metiers/<id>.svg), affichée
 check("image d'aperçu WhatsApp : fichier JPEG < 250 Ko déclaré dans les pages",
   !!C.og_image && existsSync(join(root, "assets", C.og_image)) && statSync(join(root, "assets", C.og_image)).size < 250 * 1024 && lire("index.html").includes("assets/" + C.og_image));
 
-check("carte de la Tunisie : accueil (24 bulles cliquables vers les gouvernorats) et page de gouvernorat (le sien en surbrillance)",
+check("carte de la Tunisie EN HAUT (bandeau) : accueil (24 bulles cliquables) et page de gouvernorat (le sien en surbrillance)", /class="hero-carte"/.test(lire("index.html")) && /class="hero-carte petite"/.test(lire("gouvernorat/sfax/index.html")) &&
   (lire("index.html").match(/class="tn-b[^"]*" data-gouv=/g) || []).length === 24 && lire("index.html").includes('href="gouvernorat/tunis/" class="tn-b') &&
   /class="tn-b[^"]*actif[^"]*" data-gouv="sfax"/.test(lire("gouvernorat/sfax/index.html")));
+
+// -- consigne sécurité commune
+const rob = lire("robots.txt");
+check("robots.txt : tous les robots d'IA et aspirateurs de la consigne refusés, moteurs de recherche autorisés",
+  ["GPTBot", "OAI-SearchBot", "ClaudeBot", "Claude-Web", "anthropic-ai", "CCBot", "Google-Extended", "Applebot-Extended", "PerplexityBot", "Bytespider", "Amazonbot", "Meta-ExternalAgent", "FacebookBot", "Diffbot", "Omgilibot", "cohere-ai", "ImagesiftBot", "HTTrack", "WebCopier", "WebZIP", "Offline Explorer", "wget", "SiteSnagger"].every(b => rob.includes("User-agent: " + b + "\nDisallow: /")) && !rob.includes("User-agent: Googlebot\nDisallow"));
+check("anti-copie : meta noai sur chaque page, script de protection (copie, clic droit), listes protégées", pages.every(p => lire(p).includes('content="noai, noimageai"')) && /addEventListener\("copy"/.test(lire("assets/page.js")) && /contextmenu/.test(lire("assets/page.js")) && lire("index.html").includes('class="liste protege"'));
+const SECRETS = /(AIza[0-9A-Za-z_-]{20,}|gh[pousr]_[0-9A-Za-z]{20,}|sk-[0-9A-Za-z]{20,}|[0-9a-z._%+-]+@(yahoo|gmail|hotmail|outlook)\.[a-z]+)/i;
+check("aucun secret ni adresse e-mail privée dans le site", ![...pages, "config.json", "assets/page.js", "assets/annuaire.js", "assets/conf.js"].some(f => SECRETS.test(lire(f))));
+
+check("arabe : aucun élément placé loin hors de l'écran (sinon la page arabe s'affiche blanche sur téléphone)", !/(left|right)\s*:\s*-\d{3,}px/.test(lire("assets/style.css")));
+check("doublons : pas deux fiches au même nom à moins de 300 m", (() => {
+  const L = fichesPages.map(p => { const m = lire(p).match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/); try { return JSON.parse(m[1]); } catch { return null; } }).filter(x => x && x.geo);
+  for (let a = 0; a < L.length; a++) for (let b = a + 1; b < L.length; b++) {
+    const A = L[a], B = L[b];
+    if (A.name.toLowerCase().trim() !== B.name.toLowerCase().trim()) continue;
+    const d = Math.hypot((A.geo.latitude - B.geo.latitude) * 111000, (A.geo.longitude - B.geo.longitude) * 111000 * Math.cos(A.geo.latitude * Math.PI / 180));
+    if (d < 300) return false;
+  }
+  return true; })());
 
 // -- fichiers du site
 const man = JSON.parse(lire("manifest.webmanifest"));
@@ -108,10 +127,10 @@ else {
   let { w, d } = await ouvrir("index.html");
   check("accueil : en-tête et pied fabriqués (nom du site, crédit OpenStreetMap)", d.getElementById("entete").textContent.includes(C.nom.fr) && /OpenStreetMap/.test(d.getElementById("pied").textContent));
   const visibles = () => [...d.querySelectorAll(".fiche-carte")].filter(c => !c.hidden).length;
-  check("accueil : toutes les fiches visibles au départ", visibles() === attendues.length);
+  check("accueil : toutes les fiches visibles au départ", visibles() === fichesPages.length);
   const g = attendues[0].gouvernorat;
   d.getElementById("choix-g").value = g; d.getElementById("choix-g").dispatchEvent(new w.Event("change"));
-  check("accueil : le filtre par gouvernorat ne garde que ce gouvernorat", visibles() === attendues.filter(f => f.gouvernorat === g).length);
+  check("accueil : le filtre par gouvernorat ne garde que ce gouvernorat", visibles() > 0 && [...d.querySelectorAll(".fiche-carte")].filter(c => !c.hidden).every(c => c.dataset.g === g));
   const champ = d.getElementById("recherche"); champ.value = "zzzzqqq"; champ.dispatchEvent(new w.Event("input"));
   check("accueil : recherche sans résultat → message « Aucun résultat »", visibles() === 0 && !d.getElementById("aucun").hidden);
   d.querySelector(".langue").dispatchEvent(new w.Event("click"));

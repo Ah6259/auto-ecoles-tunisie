@@ -38,6 +38,8 @@ def filtres():
         for etiquette in m["osm"]:
             k, v = etiquette.split("=", 1)
             lignes.append((m["id"], k, v, f'nwr["{k}"="{v}"](area.g);'))
+        if m.get("noms"):   # expression du nom (ex. « auto[ -]?[ée]cole|مدرسة سياقة ») : établissements mal étiquetés
+            lignes.append((m["id"], "name", "~" + m["noms"], f'nwr["name"~"{m["noms"]}",i](area.g);'))
     return lignes
 
 
@@ -74,7 +76,7 @@ def releve():
         if not courant:
             continue
         t = e.get("tags", {})
-        metier = next((m for m, k, v, _ in L if t.get(k) == v), None)
+        metier = next((m for m, k, val, _ in L if (t.get(k) == val) or (val.startswith("~") and re.search(val[1:], t.get(k) or "", re.I))), None)
         nom = (t.get("name:fr") or t.get("name") or "").strip()
         if not metier or not nom:
             continue                       # sans nom : pas de fiche (rien d'utile à montrer)

@@ -51,5 +51,16 @@
   }
 })();
 
-/* protection légère : pas de glisser-copier des images */
-document.addEventListener("dragstart", e => { if (e.target.closest && e.target.closest("img")) e.preventDefault(); });
+/* Anti-copie légère (consigne sécurité commune) : images protégées, listes non sélectionnables, source ajoutée au texte copié.
+   Restent libres : champs de formulaire, numéros de téléphone et adresses (le visiteur doit pouvoir les copier). */
+document.addEventListener("contextmenu", e => { if (e.target.closest && e.target.closest("img, svg, .protege")) e.preventDefault(); });
+document.addEventListener("dragstart", e => { if (e.target.closest && e.target.closest("img, .protege")) e.preventDefault(); });
+document.addEventListener("copy", e => {
+  const el = document.activeElement;
+  if (el && /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName)) return;
+  const sel = String(window.getSelection ? window.getSelection() : "");
+  if (!sel || !e.clipboardData) return;
+  const nom = window.CONF ? window.CONF.nom.fr : "";
+  e.clipboardData.setData("text/plain", sel + "\n\nSource : " + location.href.split("?")[0].split("#")[0] + " — © " + nom + ", tous droits réservés.");
+  e.preventDefault();
+});

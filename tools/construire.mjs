@@ -28,10 +28,19 @@ const M = Object.fromEntries(C.metiers.map(m => [m.id, m]));
 
 /* ---------------- fiches ---------------- */
 const retraits = new Set(lire("donnees/retraits.json", { ids: [] }).ids || []);
-const toutes = [...(lire("donnees/osm.json", { fiches: [] }).fiches || []), ...(lire("donnees/inscrits.json", { fiches: [] }).fiches || [])]
+const toutes = [...(lire("donnees/osm.json", { fiches: [] }).fiches || []), ...(lire("donnees/manuels.json", { fiches: [] }).fiches || []), ...(lire("donnees/inscrits.json", { fiches: [] }).fiches || [])]
   .filter(f => f && f.id && f.nom && G[f.gouvernorat] && M[f.metier] && !retraits.has(f.id));
-const vus = new Set();
-export const FICHES = toutes.filter(f => !vus.has(f.id) && vus.add(f.id))
+// doublons : même identifiant, ou même nom (sans accents ni casse) à moins de 300 m (point et bâtiment du même lieu dans OSM)
+const vus = new Set(), gardees = [];
+const nomN = s => s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9؀-ۿ]+/g, " ").trim();
+const distM = (a, b) => Math.hypot((a.lat - b.lat) * 111000, (a.lon - b.lon) * 111000 * Math.cos(a.lat * Math.PI / 180));
+for (const f of toutes) {
+  if (vus.has(f.id)) continue;
+  const double = gardees.find(g => nomN(g.nom) === nomN(f.nom) && g.lat && f.lat && distM(g, f) < 300);
+  if (double) { for (const k of ["tel", "site", "horaires", "adresse", "ville", "nom_ar"]) if (!double[k] && f[k]) double[k] = f[k]; continue; }
+  vus.add(f.id); gardees.push(f);
+}
+export const FICHES = gardees
   .sort((a, b) => (b.pro ? 1 : 0) - (a.pro ? 1 : 0) || a.nom.localeCompare(b.nom, "fr"));
 
 /* ---------------- outils ---------------- */
@@ -168,22 +177,21 @@ const metierPl = C.metiers.length === 1 ? C.metiers[0] : { fr_pl: "professionnel
 {
   const ld = [{ "@context": "https://schema.org", "@type": "WebSite", name: C.nom.fr, url: URL_SITE, inLanguage: ["fr", "ar"] }];
   pages[""] = tete({ titre: `${C.titre_accueil.fr} | ${C.nom.fr}`, desc: C.description, chemin: "", racine: "", jsonld: ld }) + `
-<section class="hero hero-accueil"><div class="wrap">
+<section class="hero hero-accueil">${P ? `<img class="hero-fond" src="${esc(P.fichier)}" alt="" width="${P.largeur}" height="${P.hauteur}">` : ""}<div class="wrap">
   <div class="hero-texte">
   <h1>${biO(C.titre_accueil)}</h1>
   <p class="intro">${biO(C.intro)}</p>
   <p class="chiffre">${bi(`${FICHES.length} ${esc(metierPl.fr_pl.toLowerCase())} dans ${Object.values(compteG).filter(Boolean).length} gouvernorats`, `${ISO(FICHES.length)} ${esc(metierPl.ar_pl)} في ${ISO(Object.values(compteG).filter(Boolean).length)} ولاية`)}</p>
   </div>
-  ${P ? `<figure class="hero-photo"><img src="${esc(P.fichier)}" alt="${esc(P.alt.fr)}" width="${P.largeur}" height="${P.hauteur}">${creditPhoto()}</figure>` : ""}
-</div></section>
+  <figure class="hero-carte">${carteTunisie("", compteG)}<figcaption>${bi("Touchez un gouvernorat", "اضغط على ولاية")}</figcaption></figure>
+</div>${P ? `<div class="wrap">${creditPhoto()}</div>` : ""}</section>
 <main class="wrap">
   ${C.metiers.length > 1 ? `<div class="metiers">${C.metiers.map(m => `<a class="metier" href="#liste" data-m="${m.id}">${imgMetier(m, "", 44)}<span>${biO({ fr: m.fr_pl, ar: m.ar_pl })}</span><span class="n">${FICHES.filter(f => f.metier === m.id).length}</span></a>`).join("")}</div>` : ""}
   ${filtres("", false)}
-  <div class="liste" id="liste">${FICHES.map(f => carte(f, "")).join("\n")}</div>
+  <div class="liste protege" id="liste">${FICHES.map(f => carte(f, "")).join("\n")}</div>
   <p class="vide" id="aucun" hidden>${bi("Aucun résultat. Essayez un autre mot ou un autre gouvernorat.", "لا توجد نتيجة. جرّب كلمة أو ولاية أخرى.")}</p>
   <h2 class="titre-section">${bi("Par gouvernorat", "حسب الولاية")}</h2>
-  <section class="carte bloc-carte">
-    <figure>${carteTunisie("", compteG)}<figcaption>${bi("Touchez un gouvernorat", "اضغط على ولاية")}</figcaption></figure>
+  <section class="carte">
     <div class="gouvernorats">${GOUVERNORATS.map(g => `<a href="gouvernorat/${g[0]}/">${bi(esc(g[1]), esc(g[2]))}<span class="n">${compteG[g[0]]}</span></a>`).join("")}</div>
   </section>
   ${blocPro("")}
@@ -198,16 +206,19 @@ for (const [slug, fr, ar] of GOUVERNORATS) {
   const liste = FICHES.filter(f => f.gouvernorat === slug);
   const titre = `${metierPl.fr_pl} à ${fr} (${liste.length}) — adresse et téléphone, gratuit | ${C.nom.fr}`;
   pages[`gouvernorat/${slug}/`] = tete({ titre, desc: `${metierPl.fr_pl} dans le gouvernorat de ${fr} : adresse, téléphone, WhatsApp et itinéraire. Annuaire gratuit en français et en arabe. ${metierPl.ar_pl} في ولاية ${ar}.`, chemin: `gouvernorat/${slug}/`, racine: "../../" }) + `
-<section class="hero"><div class="wrap">
+<section class="hero hero-accueil"><div class="wrap">
+  <div class="hero-texte">
   ${fil("../../", bi(esc(fr), esc(ar)))}
   <h1>${bi(`${esc(metierPl.fr_pl)} à ${esc(fr)}`, `${esc(metierPl.ar_pl)} في ولاية ${esc(ar)}`)}</h1>
-  <p class="intro">${bi(`${liste.length} fiche(s), triées par nom.`, `${ISO(liste.length)} بطاقة، مرتبة حسب الاسم.`)}</p>
+  <p class="intro">${bi(`${liste.length} fiche(s), triées par nom. Annuaire gratuit.`, `${ISO(liste.length)} بطاقة، مرتبة حسب الاسم. دليل مجاني.`)}</p>
+  </div>
+  <figure class="hero-carte petite">${carteTunisie("../../", compteG, slug)}<figcaption>${bi("Autres gouvernorats : touchez la carte", "ولايات أخرى: اضغط على الخريطة")}</figcaption></figure>
 </div></section>
 <main class="wrap">
-  ${liste.length ? filtres("../../", true) + `<div class="liste" id="liste">${liste.map(f => carte(f, "../../")).join("\n")}</div><p class="vide" id="aucun" hidden>${bi("Aucun résultat.", "لا توجد نتيجة.")}</p>`
-    : `<p class="vide">${bi(`Aucune fiche pour l'instant à ${esc(fr)}. Vous connaissez un établissement ? Signalez-le-nous.`, `لا توجد بطاقة حاليًا في ${esc(ar)}. هل تعرف مؤسسة؟ أعلمنا بها.`)}</p>`}
-  <section class="carte bloc-carte petite">
-    <figure>${carteTunisie("../../", compteG, slug)}<figcaption>${bi("Autres gouvernorats : touchez la carte", "ولايات أخرى: اضغط على الخريطة")}</figcaption></figure>
+  ${liste.length ? filtres("../../", true) + `<div class="liste protege" id="liste">${liste.map(f => carte(f, "../../")).join("\n")}</div><p class="vide" id="aucun" hidden>${bi("Aucun résultat.", "لا توجد نتيجة.")}</p>`
+    : `<section class="carte appel-vide"><h2>${bi(`Soyez parmi les premiers à ${esc(fr)}`, `كن من الأوائل في ${esc(ar)}`)}</h2><p>${bi(`Aucune fiche pour l'instant dans le gouvernorat de ${esc(fr)}. Vous êtes un professionnel ici, ou vous en connaissez un ? L'ajout est gratuit.`, `لا توجد بطاقة حاليًا في ولاية ${esc(ar)}. هل أنت مهني هنا أو تعرف مهنيًا؟ الإضافة مجانية.`)}</p><a class="btn" href="../../inscription/">${bi("Ajouter une fiche gratuitement", "أضف بطاقة مجانًا")}</a></section>`}
+  <section class="carte">
+    <h2>${bi("Autres gouvernorats", "ولايات أخرى")}</h2>
     <div class="gouvernorats">${GOUVERNORATS.filter(g => g[0] !== slug).map(g => `<a href="../../gouvernorat/${g[0]}/">${bi(esc(g[1]), esc(g[2]))}<span class="n">${compteG[g[0]]}</span></a>`).join("")}</div>
   </section>
   ${blocPro("../../")}
@@ -245,7 +256,7 @@ for (const f of FICHES) {
       ${f.site ? `<dt>${bi("Site", "الموقع")}</dt><dd><a href="${esc(f.site)}" rel="noopener nofollow">${esc(f.site.replace(/^https?:\/\//, "").replace(/\/$/, ""))}</a></dd>` : ""}
       ${!f.tel ? `<dt>${bi("Téléphone", "الهاتف")}</dt><dd>${bi("non renseigné", "غير متوفر")}</dd>` : ""}
     </dl>
-    <p class="source">${f.source === "osm" ? bi(`Informations publiques issues d'<a href="${f.osm}" rel="noopener">OpenStreetMap</a> (© les contributeurs d'OpenStreetMap, licence ODbL), non vérifiées par l'établissement.`, `معلومات عامة مأخوذة من <a href="${f.osm}" rel="noopener">OpenStreetMap</a> (© المساهمون في OpenStreetMap، رخصة ODbL)، لم تتحقق منها المؤسسة.`) : bi("Fiche remplie par l'établissement et vérifiée.", "بطاقة عمّرتها المؤسسة وتم التثبت منها.")}</p>
+    <p class="source">${f.source === "web" ? bi(`Informations publiées par l'établissement lui-même sur <a href="${esc(f.source_url)}" rel="noopener nofollow">sa page publique</a> (relevées le ${esc(f.releve || "")}), non vérifiées par nous.`, `معلومات نشرتها المؤسسة بنفسها على <a href="${esc(f.source_url)}" rel="noopener nofollow">صفحتها العامة</a> (بتاريخ ${esc(f.releve || "")})، لم نتحقق منها.`) : f.source === "osm" ? bi(`Informations publiques issues d'<a href="${f.osm}" rel="noopener">OpenStreetMap</a> (© les contributeurs d'OpenStreetMap, licence ODbL), non vérifiées par l'établissement.`, `معلومات عامة مأخوذة من <a href="${f.osm}" rel="noopener">OpenStreetMap</a> (© المساهمون في OpenStreetMap، رخصة ODbL)، لم تتحقق منها المؤسسة.`) : bi("Fiche remplie par l'établissement et vérifiée.", "بطاقة عمّرتها المؤسسة وتم التثبت منها.")}</p>
     <div class="actions petites">
       <a href="../../inscription/?fiche=${f.id}&amp;action=corriger">${svg("crayon")}${bi("C'est votre établissement ? Compléter ou corriger", "هذه مؤسستك؟ أكمل البطاقة أو صحّحها")}</a>
       <a href="../../inscription/?fiche=${f.id}&amp;action=retirer">${svg("retirer")}${bi("Retirer cette fiche", "حذف هذه البطاقة")}</a>
@@ -334,6 +345,6 @@ Allow: /
 Sitemap: ${URL_SITE}sitemap.xml
 
 # Robots d'intelligence artificielle et aspirateurs : non
-${["GPTBot", "ChatGPT-User", "CCBot", "Google-Extended", "anthropic-ai", "ClaudeBot", "PerplexityBot", "Bytespider", "Amazonbot", "Applebot-Extended", "meta-externalagent", "HTTrack", "wget"].map(b => `User-agent: ${b}\nDisallow: /`).join("\n\n")}
+${["GPTBot", "ChatGPT-User", "OAI-SearchBot", "ClaudeBot", "Claude-Web", "anthropic-ai", "CCBot", "Google-Extended", "Applebot-Extended", "PerplexityBot", "Bytespider", "Amazonbot", "Meta-ExternalAgent", "FacebookBot", "Diffbot", "Omgilibot", "cohere-ai", "ImagesiftBot", "HTTrack", "WebCopier", "WebZIP", "Offline Explorer", "wget", "SiteSnagger"].map(b => `User-agent: ${b}\nDisallow: /`).join("\n\n")}
 `, "utf8");
 console.log(`${Object.keys(pages).length} pages (${FICHES.length} fiches, ${retraits.size} retirée(s)), version ${V}`);
