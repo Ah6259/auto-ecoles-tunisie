@@ -71,6 +71,10 @@ check("image en couleur pour chaque métier (assets/metiers/<id>.svg), affichée
 check("image d'aperçu WhatsApp : fichier JPEG < 250 Ko déclaré dans les pages",
   !!C.og_image && existsSync(join(root, "assets", C.og_image)) && statSync(join(root, "assets", C.og_image)).size < 250 * 1024 && lire("index.html").includes("assets/" + C.og_image));
 
+check("carte de la Tunisie : accueil (24 bulles cliquables vers les gouvernorats) et page de gouvernorat (le sien en surbrillance)",
+  (lire("index.html").match(/class="tn-b[^"]*" data-gouv=/g) || []).length === 24 && lire("index.html").includes('href="gouvernorat/tunis/" class="tn-b') &&
+  /class="tn-b[^"]*actif[^"]*" data-gouv="sfax"/.test(lire("gouvernorat/sfax/index.html")));
+
 // -- fichiers du site
 const man = JSON.parse(lire("manifest.webmanifest"));
 check("manifeste : id unique du site, icônes présentes", man.id === BASE && man.icons.every(i => existsSync(join(root, i.src))) && existsSync(join(root, "assets/icons/apple-touch-icon.png")) && existsSync(join(root, "assets/logo.svg")));

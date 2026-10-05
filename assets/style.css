@@ -94,3 +94,15 @@ footer p{margin:6px 0}
 .metier{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;background:#fff;border:1px solid var(--ligne);border-radius:14px;padding:12px 8px;text-decoration:none;color:var(--texte);font-weight:700;box-shadow:var(--ombre)}
 .metier .n{background:var(--p-clair);color:var(--p);border-radius:999px;padding:0 9px;font-size:13px}
 .titre-fiche{display:flex;align-items:center;gap:12px}.titre-fiche .ill-metier{background:#fff;padding:3px;border-radius:12px}
+/* carte de la Tunisie (moteur commun) */
+.bloc-carte{display:grid;grid-template-columns:230px 1fr;gap:18px;align-items:start}
+.bloc-carte figure{margin:0}.bloc-carte figcaption{font-size:12.5px;color:var(--doux);text-align:center;margin-top:6px;font-weight:600}
+.carte-tn{width:100%;height:auto;overflow:visible}
+.tn-terre{fill:var(--p-clair);stroke:var(--p);stroke-width:1.3;stroke-linejoin:round}
+.tn-b circle{fill:var(--p);fill-opacity:.9;stroke:#fff;stroke-width:1.6}
+.tn-b:hover circle{fill-opacity:1}
+.tn-b.vide circle{fill:var(--doux);fill-opacity:.35}
+.tn-b.actif circle{fill:#F2B33D;fill-opacity:1;stroke:var(--p-fonce);stroke-width:2.5}
+.tn-b text{fill:#fff;font:800 10.5px Figtree,system-ui,sans-serif;text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.bloc-carte.petite{grid-template-columns:170px 1fr}
+@media (max-width:560px){.bloc-carte,.bloc-carte.petite{grid-template-columns:1fr}.bloc-carte figure{max-width:230px;margin:0 auto}}

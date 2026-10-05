@@ -7,6 +7,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync, rmSync, readdirSync
 import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import { createHash } from "crypto";
+import { TN_CONTOUR, TN_DJERBA, TN_POS } from "./carte_tunisie.mjs";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
 const lire = (f, defaut) => existsSync(join(root, f)) ? JSON.parse(readFileSync(join(root, f), "utf8")) : defaut;
@@ -147,6 +148,17 @@ const AVIS = `<section class="carte avis" id="avis">
   </form>
 </section>`;
 
+/* Carte de la Tunisie : une bulle par gouvernorat (taille selon le nombre de fiches), cliquable ; « actif » = gouvernorat de la page.
+   Règle d'Ahmed (05/10/2026) : chaque moteur de recherche par gouvernorat a cette carte. */
+function carteTunisie(racine, comptes, actif = "") {
+  const bulles = GOUVERNORATS.map(([slug, fr, ar]) => {
+    const [x, y] = TN_POS[slug], n = comptes[slug] || 0;
+    const r = n ? Math.round(Math.min(18, 7.5 + 2.2 * Math.sqrt(n)) * 10) / 10 : 5;
+    return `<a href="${racine}gouvernorat/${slug}/" class="tn-b${n ? "" : " vide"}${slug === actif ? " actif" : ""}" data-gouv="${slug}"><title>${esc(fr)} · ${esc(ar)} : ${n}</title><circle cx="${x}" cy="${y}" r="${slug === actif ? Math.max(r, 11) : r}"/>${n ? `<text x="${x}" y="${y}">${n}</text>` : ""}</a>`;
+  }).join("");
+  return `<svg class="carte-tn" viewBox="0 0 232 462" role="img" aria-label="Carte de la Tunisie par gouvernorat"><path class="tn-terre" d="${TN_CONTOUR}"/><ellipse class="tn-terre" cx="${TN_DJERBA[0]}" cy="${TN_DJERBA[1]}" rx="9" ry="6.5"/>${bulles}</svg>`;
+}
+
 /* ---------------- pages ---------------- */
 const pages = {};
 const compteG = Object.fromEntries(GOUVERNORATS.map(g => [g[0], FICHES.filter(f => f.gouvernorat === g[0]).length]));
@@ -170,7 +182,10 @@ const metierPl = C.metiers.length === 1 ? C.metiers[0] : { fr_pl: "professionnel
   <div class="liste" id="liste">${FICHES.map(f => carte(f, "")).join("\n")}</div>
   <p class="vide" id="aucun" hidden>${bi("Aucun résultat. Essayez un autre mot ou un autre gouvernorat.", "لا توجد نتيجة. جرّب كلمة أو ولاية أخرى.")}</p>
   <h2 class="titre-section">${bi("Par gouvernorat", "حسب الولاية")}</h2>
-  <div class="gouvernorats">${GOUVERNORATS.map(g => `<a href="gouvernorat/${g[0]}/">${bi(esc(g[1]), esc(g[2]))}<span class="n">${compteG[g[0]]}</span></a>`).join("")}</div>
+  <section class="carte bloc-carte">
+    <figure>${carteTunisie("", compteG)}<figcaption>${bi("Touchez un gouvernorat", "اضغط على ولاية")}</figcaption></figure>
+    <div class="gouvernorats">${GOUVERNORATS.map(g => `<a href="gouvernorat/${g[0]}/">${bi(esc(g[1]), esc(g[2]))}<span class="n">${compteG[g[0]]}</span></a>`).join("")}</div>
+  </section>
   ${blocPro("")}
   ${liensAmis()}
   ${AVIS}
@@ -191,6 +206,10 @@ for (const [slug, fr, ar] of GOUVERNORATS) {
 <main class="wrap">
   ${liste.length ? filtres("../../", true) + `<div class="liste" id="liste">${liste.map(f => carte(f, "../../")).join("\n")}</div><p class="vide" id="aucun" hidden>${bi("Aucun résultat.", "لا توجد نتيجة.")}</p>`
     : `<p class="vide">${bi(`Aucune fiche pour l'instant à ${esc(fr)}. Vous connaissez un établissement ? Signalez-le-nous.`, `لا توجد بطاقة حاليًا في ${esc(ar)}. هل تعرف مؤسسة؟ أعلمنا بها.`)}</p>`}
+  <section class="carte bloc-carte petite">
+    <figure>${carteTunisie("../../", compteG, slug)}<figcaption>${bi("Autres gouvernorats : touchez la carte", "ولايات أخرى: اضغط على الخريطة")}</figcaption></figure>
+    <div class="gouvernorats">${GOUVERNORATS.filter(g => g[0] !== slug).map(g => `<a href="../../gouvernorat/${g[0]}/">${bi(esc(g[1]), esc(g[2]))}<span class="n">${compteG[g[0]]}</span></a>`).join("")}</div>
+  </section>
   ${blocPro("../../")}
   ${liensAmis()}
 </main>
