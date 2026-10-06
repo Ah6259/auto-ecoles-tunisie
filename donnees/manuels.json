@@ -934,6 +934,57 @@
    "lon": null,
    "source_url": "https://www.facebook.com/Ecole2conduitebizerte/",
    "releve": "06/10/2026"
+  },
+  {
+   "id": "web-nabeul-plus",
+   "source": "web",
+   "metier": "auto-ecole",
+   "nom": "Auto-école Plus Nabeul",
+   "nom_ar": null,
+   "gouvernorat": "nabeul",
+   "ville": "Nabeul",
+   "adresse": null,
+   "tel": "23769334",
+   "site": null,
+   "horaires": null,
+   "lat": null,
+   "lon": null,
+   "source_url": "https://www.facebook.com/AutoEcolePlusAliMeddebNabeul/",
+   "releve": "06/10/2026"
+  },
+  {
+   "id": "web-nabeul-excellence",
+   "source": "web",
+   "metier": "auto-ecole",
+   "nom": "Auto-école l'Excellence Nabeul",
+   "nom_ar": null,
+   "gouvernorat": "nabeul",
+   "ville": "Nabeul",
+   "adresse": null,
+   "tel": null,
+   "site": null,
+   "horaires": null,
+   "lat": null,
+   "lon": null,
+   "source_url": "https://www.facebook.com/p/auto-ecole-lexcellence-nabeul-100067181526747/",
+   "releve": "06/10/2026"
+  },
+  {
+   "id": "web-nabeul-sahraoui",
+   "source": "web",
+   "metier": "auto-ecole",
+   "nom": "Auto-école Sahraoui",
+   "nom_ar": null,
+   "gouvernorat": "nabeul",
+   "ville": "Nabeul",
+   "adresse": null,
+   "tel": null,
+   "site": null,
+   "horaires": null,
+   "lat": null,
+   "lon": null,
+   "source_url": "https://www.facebook.com/p/Auto-Ecole-Sahraoui-61553625464713/",
+   "releve": "06/10/2026"
   }
  ]
 }
