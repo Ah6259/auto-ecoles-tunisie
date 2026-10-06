@@ -56,7 +56,21 @@
     {
       "fr": "Réviser le code de la route gratuitement",
       "ar": "راجع قانون الطرقات مجانًا",
-      "url": "https://ah6259.github.io/code-route-tunisie/"
+      "url": "https://ah6259.github.io/code-route-tunisie/",
+      "desc_fr": "Leçons, panneaux et questions corrigées",
+      "desc_ar": "دروس وإشارات وأسئلة مصحّحة"
+    },
+    {
+      "fr": "Examen blanc gratuit (30 questions)",
+      "ar": "امتحان تجريبي مجاني (30 سؤالًا)",
+      "url": "https://ah6259.github.io/code-route-tunisie/examen/",
+      "desc_fr": "Comme le jour de l'examen, avec chronomètre",
+      "desc_ar": "كما في يوم الامتحان، مع عدّاد الوقت"
+    },
+    {
+      "fr": "Les panneaux de signalisation expliqués",
+      "ar": "إشارات المرور مشروحة",
+      "url": "https://ah6259.github.io/code-route-tunisie/panneaux/"
     }
   ],
   "inscriptions_ouvertes": true,
