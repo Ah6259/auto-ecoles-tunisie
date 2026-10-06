@@ -58,7 +58,9 @@
       "ar": "راجع قانون الطرقات مجانًا",
       "url": "https://ah6259.github.io/code-route-tunisie/",
       "desc_fr": "Leçons, panneaux et questions corrigées",
-      "desc_ar": "دروس وإشارات وأسئلة مصحّحة"
+      "desc_ar": "دروس وإشارات وأسئلة مصحّحة",
+      "logo": "assets/liens/code-route.svg",
+      "vedette": true
     },
     {
       "fr": "Examen blanc gratuit (30 questions)",
