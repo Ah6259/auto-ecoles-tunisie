@@ -36,7 +36,20 @@
       "fr_pl": "Auto-écoles",
       "ar": "مدرسة سياقة",
       "ar_pl": "مدارس السياقة",
-      "mots": "auto-école auto ecole école de conduite permis moniteur conduite مدرسة سياقة تعليم السياقة رخصة"
+      "mots": "auto-école auto ecole école de conduite permis moniteur conduite مدرسة سياقة تعليم السياقة رخصة",
+      "photo": {
+        "fichier": "assets/metiers-photos/auto-ecole.webp",
+        "largeur": 600,
+        "hauteur": 450,
+        "alt": {
+          "fr": "Panneaux de direction bilingues arabe-français sur une route tunisienne",
+          "ar": "لافتات اتجاه ثنائية اللغة عربي-فرنسي على طريق تونسية"
+        },
+        "auteur": "Eugenijus Radlinskas",
+        "licence": "CC BY 2.0",
+        "licence_url": "https://creativecommons.org/licenses/by/2.0",
+        "source": "https://commons.wikimedia.org/wiki/File:Road_signs_Tunisia.jpg"
+      }
     }
   ],
   "liens": [
