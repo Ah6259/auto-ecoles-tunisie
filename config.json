@@ -63,6 +63,15 @@
       "vedette": true
     },
     {
+     "fr": "Vignette, visite technique, assurance : vos rappels",
+     "ar": "معلوم الجولان، الفحص الفني، التأمين: تذكيراتك",
+     "url": "https://ah6259.github.io/ma-voiture-tunisie/",
+     "desc_fr": "Toutes les échéances de votre voiture, gratuitement",
+     "desc_ar": "كل مواعيد سيارتك، مجانًا",
+     "logo": "assets/liens/ma-voiture.svg",
+     "vedette": true
+    },
+    {
       "fr": "Examen blanc gratuit (30 questions)",
       "ar": "امتحان تجريبي مجاني (30 سؤالًا)",
       "url": "https://ah6259.github.io/code-route-tunisie/examen/",
