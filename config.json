@@ -56,7 +56,7 @@
     {
       "fr": "Réviser le code de la route gratuitement",
       "ar": "راجع قانون الطرقات مجانًا",
-      "url": "https://ah6259.github.io/code-route-tunisie/",
+      "url": "https://code.clicvia.com/",
       "desc_fr": "Leçons, panneaux et questions corrigées",
       "desc_ar": "دروس وإشارات وأسئلة مصحّحة",
       "logo": "assets/liens/code-route.svg",
@@ -65,7 +65,7 @@
     {
      "fr": "Vignette, visite technique, assurance : vos rappels",
      "ar": "معلوم الجولان، الفحص الفني، التأمين: تذكيراتك",
-     "url": "https://ah6259.github.io/ma-voiture-tunisie/",
+     "url": "https://voiture.clicvia.com/",
      "desc_fr": "Toutes les échéances de votre voiture, gratuitement",
      "desc_ar": "كل مواعيد سيارتك، مجانًا",
      "logo": "assets/liens/ma-voiture.svg",
@@ -74,14 +74,14 @@
     {
       "fr": "Examen blanc gratuit (30 questions)",
       "ar": "امتحان تجريبي مجاني (30 سؤالًا)",
-      "url": "https://ah6259.github.io/code-route-tunisie/examen/",
+      "url": "https://code.clicvia.com/examen/",
       "desc_fr": "Comme le jour de l'examen, avec chronomètre",
       "desc_ar": "كما في يوم الامتحان، مع عدّاد الوقت"
     },
     {
       "fr": "Les panneaux de signalisation expliqués",
       "ar": "إشارات المرور مشروحة",
-      "url": "https://ah6259.github.io/code-route-tunisie/panneaux/"
+      "url": "https://code.clicvia.com/panneaux/"
     }
   ],
   "inscriptions_ouvertes": true,
