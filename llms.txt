@@ -1,0 +1,35 @@
+# Auto-écoles Tunisie
+
+> Annuaire gratuit des auto-écoles en Tunisie par gouvernorat : adresse, téléphone, WhatsApp, itinéraire. En français et en arabe.
+
+Site gratuit et indépendant, publié par Clicvia (https://clicvia.com/), le portail de services pratiques pour la Tunisie. Adresse : https://auto-ecoles.clicvia.com/
+Langues : français, arabe.
+
+## Pages principales
+
+- [À propos et sources](https://auto-ecoles.clicvia.com/a-propos/) : D'où viennent les fiches de Auto-écoles Tunisie (OpenStreetMap, demandes des professionnels), données personnelles et retrait.
+- [Al Omrani — Auto-école à تطاوين : téléphone, adresse](https://auto-ecoles.clicvia.com/fiche/osm-n9832252313/) : Al Omrani, auto-école à تطاوين (gouvernorat de Tataouine) : adresse et itinéraire. Annuaire gratuit.
+- [AUTO - ECOLE Jasser Touhami — Auto-école à Tozeur : téléphone, adresse](https://auto-ecoles.clicvia.com/fiche/web-tozeur-jasser-touhami/) : AUTO - ECOLE Jasser Touhami, auto-école à Tozeur (gouvernorat de Tozeur) : téléphone, adresse et itinéraire. Annuaire gratuit.
+- [Auto école "Samir Ben Sassi" Midoun Jerba — Auto-école à Midoun (Djerba) : téléphone, adresse](https://auto-ecoles.clicvia.com/fiche/web-medenine-samir-ben-sassi/) : Auto école "Samir Ben Sassi" Midoun Jerba, auto-école à Midoun (Djerba) (gouvernorat de Médenine) : téléphone, adresse et itinéraire. Annuaire gratuit.
+- [Auto Ecole Abderrazak Habassi — Auto-école à Gabès : téléphone, adresse](https://auto-ecoles.clicvia.com/fiche/web-gabes-abderrazak-habassi/) : Auto Ecole Abderrazak Habassi, auto-école à Gabès (gouvernorat de Gabès) : téléphone, adresse et itinéraire. Annuaire gratuit.
+- [Auto Ecole Al Emtiez — Auto-école à Gafsa : téléphone, adresse](https://auto-ecoles.clicvia.com/fiche/web-gafsa-al-emtiez/) : Auto Ecole Al Emtiez, auto-école à Gafsa (gouvernorat de Gafsa) : téléphone, adresse et itinéraire. Annuaire gratuit.
+- [Auto école Al Khalil — Auto-école à Siliana : téléphone, adresse](https://auto-ecoles.clicvia.com/fiche/web-siliana-al-khalil/) : Auto école Al Khalil, auto-école à Siliana (gouvernorat de Siliana) : téléphone, adresse et itinéraire. Annuaire gratuit.
+- [Auto école Ali Belhassen — Auto-école à Sfax : téléphone, adresse](https://auto-ecoles.clicvia.com/fiche/web-sfax-ali-belhassen/) : Auto école Ali Belhassen, auto-école à Sfax (gouvernorat de Sfax) : adresse et itinéraire. Annuaire gratuit.
+- [Auto école Aymen Daydi — Auto-école à Le Kef : téléphone, adresse](https://auto-ecoles.clicvia.com/fiche/web-le-kef-aymen-daydi/) : Auto école Aymen Daydi, auto-école à Le Kef (gouvernorat de Le Kef) : téléphone, adresse et itinéraire. Annuaire gratuit.
+- [Auto-écoles à Ariana (5) — adresse et téléphone, gratuit](https://auto-ecoles.clicvia.com/gouvernorat/ariana/) : Auto-écoles dans le gouvernorat de Ariana : adresse, téléphone, WhatsApp et itinéraire. Annuaire gratuit en français et en arabe. مدارس السياقة في ولاية أريانة.
+- [Auto-écoles à Béja (2) — adresse et téléphone, gratuit](https://auto-ecoles.clicvia.com/gouvernorat/beja/) : Auto-écoles dans le gouvernorat de Béja : adresse, téléphone, WhatsApp et itinéraire. Annuaire gratuit en français et en arabe. مدارس السياقة في ولاية باجة.
+- [Auto-écoles à Ben Arous (11) — adresse et téléphone, gratuit](https://auto-ecoles.clicvia.com/gouvernorat/ben-arous/) : Auto-écoles dans le gouvernorat de Ben Arous : adresse, téléphone, WhatsApp et itinéraire. Annuaire gratuit en français et en arabe. مدارس السياقة في ولاية بن عروس.
+- [Auto-écoles à Bizerte (6) — adresse et téléphone, gratuit](https://auto-ecoles.clicvia.com/gouvernorat/bizerte/) : Auto-écoles dans le gouvernorat de Bizerte : adresse, téléphone, WhatsApp et itinéraire. Annuaire gratuit en français et en arabe. مدارس السياقة في ولاية بنزرت.
+- [Auto-écoles à Gabès (3) — adresse et téléphone, gratuit](https://auto-ecoles.clicvia.com/gouvernorat/gabes/) : Auto-écoles dans le gouvernorat de Gabès : adresse, téléphone, WhatsApp et itinéraire. Annuaire gratuit en français et en arabe. مدارس السياقة في ولاية قابس.
+- [Auto-écoles à Gafsa (2) — adresse et téléphone, gratuit](https://auto-ecoles.clicvia.com/gouvernorat/gafsa/) : Auto-écoles dans le gouvernorat de Gafsa : adresse, téléphone, WhatsApp et itinéraire. Annuaire gratuit en français et en arabe. مدارس السياقة في ولاية قفصة.
+- [Auto-écoles à Jendouba (2) — adresse et téléphone, gratuit](https://auto-ecoles.clicvia.com/gouvernorat/jendouba/) : Auto-écoles dans le gouvernorat de Jendouba : adresse, téléphone, WhatsApp et itinéraire. Annuaire gratuit en français et en arabe. مدارس السياقة في ولاية جندوبة.
+- [Auto-écoles à Kairouan (3) — adresse et téléphone, gratuit](https://auto-ecoles.clicvia.com/gouvernorat/kairouan/) : Auto-écoles dans le gouvernorat de Kairouan : adresse, téléphone, WhatsApp et itinéraire. Annuaire gratuit en français et en arabe. مدارس السياقة في ولاية القيروان.
+
+Le site compte 147 pages au total ; la liste complète est dans le plan du site : https://auto-ecoles.clicvia.com/sitemap.xml
+
+## À savoir
+
+- Annuaire gratuit ; les fiches viennent d'OpenStreetMap et des professionnels eux-mêmes.
+- Site non officiel : en cas de doute, la source officielle indiquée sur la page fait foi.
+- Pour citer : « Auto-écoles Tunisie » avec le lien de la page utilisée.
+- Les assistants IA qui répondent à une question en citant leur source sont les bienvenus ; l'aspiration du contenu pour entraîner un modèle n'est pas autorisée (voir robots.txt).
