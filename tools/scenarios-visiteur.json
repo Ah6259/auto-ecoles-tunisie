@@ -1,0 +1,74 @@
+[
+ {
+  "page": "",
+  "nom": "recherche par nom (« AUTO - ECOLE Jasser Touhami ») : la fiche et son téléphone s'affichent",
+  "etapes": [
+   {
+    "sel": "#recherche",
+    "valeur": "AUTO - ECOLE Jasser Touhami"
+   }
+  ],
+  "lire": ".fiche-carte:not([hidden]) .fc-tel"
+ },
+ {
+  "page": "",
+  "nom": "recherche par nom + gouvernorat (Tozeur) : nombre de résultats",
+  "etapes": [
+   {
+    "sel": "#choix-g",
+    "valeur": "tozeur"
+   },
+   {
+    "sel": "#recherche",
+    "valeur": "AUTO - ECOLE Jasser Touhami"
+   }
+  ],
+  "lire": "#compte",
+  "groupe": "gouvernorat",
+  "ordre": 1,
+  "croissant": true
+ },
+ {
+  "page": "",
+  "nom": "recherche par gouvernorat (Tozeur) : nombre de résultats",
+  "etapes": [
+   {
+    "sel": "#choix-g",
+    "valeur": "tozeur"
+   }
+  ],
+  "lire": "#compte",
+  "groupe": "gouvernorat",
+  "ordre": 2,
+  "croissant": true
+ },
+ {
+  "page": "",
+  "nom": "accueil sans filtre : nombre total de fiches",
+  "lire": "#compte",
+  "groupe": "gouvernorat",
+  "ordre": 3,
+  "croissant": true
+ },
+ {
+  "page": "gouvernorat/tozeur/",
+  "nom": "page du gouvernorat (Tozeur) : nombre de fiches affiché",
+  "lire": ".hero .intro"
+ },
+ {
+  "page": "fiche/web-tozeur-jasser-touhami/",
+  "nom": "fiche d'un professionnel (AUTO - ECOLE Jasser Touhami) : bouton « Appeler » avec le numéro",
+  "lire": ".fiche a[data-clic=\"tel\"]"
+ },
+ {
+  "page": "",
+  "nom": "accueil en arabe (bouton ع) : page lisible, nombre de résultats",
+  "etapes": [
+   {
+    "sel": "button.langue",
+    "clic": true
+   }
+  ],
+  "lire": "#compte"
+ }
+]
